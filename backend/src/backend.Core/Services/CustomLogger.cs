@@ -25,7 +25,7 @@ namespace  backend.Core.Services
             Console.ResetColor();
         }
 
-        public void LogError(string message, Exception ex = null)
+        public void LogError(string message, Exception ex = null!)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"[ERROR] [{_contextName}] {DateTime.UtcNow}: {message}");

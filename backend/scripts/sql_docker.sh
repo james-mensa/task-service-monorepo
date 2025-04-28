@@ -2,17 +2,13 @@
 
 set -e
 
+# Load environment variables from the .env file
 export $(grep -v '^#' .env | xargs)
 
 case "$1" in
   up)
     echo "****************** Configuration **************************"
     cat .env
-    # Check if network exists, create if missing
-    if ! docker network ls | grep -q "tasknet"; then
-        echo "Network 'tasknet' not found. Creating..."
-        docker network create tasknet
-    fi
 
     echo "Starting SQL Server docker container..."
 
@@ -20,15 +16,22 @@ case "$1" in
       --name sql-server-container \
       -e "ACCEPT_EULA=Y" \
       -e "SA_PASSWORD=$DB_PASSWORD" \
-      -e "MSSQL_PID=Developer" \
       -p $DB_PORT:1433 \
-      --network tasknet \
       --restart always \
       mcr.microsoft.com/mssql/server:latest
 
     echo "✅ SQL Server container started."
-    ;;
-  
+    
+    echo "Waiting for SQL Server to initialize..."
+    # Wait for SQL Server to be ready
+    until docker exec sql-server-container /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$DB_PASSWORD" -Q "SELECT 1" &>/dev/null; do
+      echo "Waiting for SQL Server to become available..."
+      sleep 5
+    done
+
+    echo "✅ SQL Server is ready to accept connections."
+    ;;  
+
   down)
     echo "Stopping and removing SQL Server docker container..."
     docker stop sql-server-container || true
