@@ -1,0 +1,86 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ASP.NET Core published outputs
+publish/
+out/
+
+# NuGet Packages
+*.nupkg
+# Optional: if you have a local nuget feed
+*.snupkg
+
+# Microsoft Visual Studio Code
+.vscode/
+
+# Rider IDE files
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# User-specific files
+*.swp
+*.bak
+*.tmp
+*.log
+
+# DotCover Code Coverage
+*.dotCover
+
+# Resharper files
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Logs
+*.log
+
+# Secrets
+secrets.json
+
+# EF Core Migrations snapshot
+**/Migrations/*.Designer.cs
+
+# Test Results
+TestResults/
+*.TestResults
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+
+# Azure Functions local settings file
+local.settings.json
+
+# dotenv environment variables
+.env
+.env.*
+
+# JetBrains Rider
+.idea/
+
+# npm packages
+node_modules/
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Crash dumps
+*.dmp
+
+# Temporary files
+*.tmp
+*.temp
+
+# Others
+Backup*/
