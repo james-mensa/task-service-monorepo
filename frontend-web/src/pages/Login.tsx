@@ -19,7 +19,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const jwt_token = LocalStorageService.getItem(appConfig.auth_token);
-    console.log({jwt_token})
     if (jwt_token !== null || jwt_token !== undefined) {
       navigate(routePath.HOME_PATH);
     }

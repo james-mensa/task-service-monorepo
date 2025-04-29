@@ -1,5 +1,5 @@
 import routePath from "@config/paths";
-import {HomePage,LoginPage,RegisterPage} from "@pages/index";
+import {AddTaskPage, HomePage,LoginPage,RegisterPage} from "@pages/index";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -7,7 +7,7 @@ const RootRouter = createBrowserRouter(
   [
     {
       path: routePath.HOME_PATH,
-      element:<LoginPage/>,
+      element:<HomePage/>,
     },
     {
       path: routePath.REGISTER_FORM_PAGE,
@@ -16,6 +16,10 @@ const RootRouter = createBrowserRouter(
     {
       path: routePath.LOGIN_FORM_PAGE,
       element:<LoginPage/>,
+    },
+    {
+      path: routePath.ADD_TASK_PAGE,
+      element:<AddTaskPage/>,
     },
   ],
   {

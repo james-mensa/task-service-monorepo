@@ -16,13 +16,17 @@ const login = async (user:User) => {
     LocalStorageService.setItem(appConfig.auth_token,token??'')
     console.log({DD:LocalStorageService.getItem(appConfig.auth_token)})
   }
-  console.log("kkkkkkkkkkkkkkkkkkkkkkk",{res})
+
   return res
 };
 
+const logout = async () => {
+  LocalStorageService.removeItem(appConfig.auth_token);
+};
  
 
 export const userApi = {
     createUser,
-    login
+    login,
+    logout
 };

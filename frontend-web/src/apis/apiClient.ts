@@ -12,6 +12,7 @@ ApiClient.interceptors.request.use(
   async (config: any) => {
     const accessToken = LocalStorageService.getItem(appConfig.auth_token);
     if (accessToken) {
+      console.log({accessToken})
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;

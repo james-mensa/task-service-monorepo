@@ -57,7 +57,7 @@ export const TaskFormController: React.FC<TokenFormProps> = observer(
 
     return (
       <Stack spacing={5} direction={"column"}>
-        <Box>
+        <Stack direction={'column'} spacing={5}>
     
                 <TextInput
                 label="Title"
@@ -88,7 +88,7 @@ export const TaskFormController: React.FC<TokenFormProps> = observer(
             
           
         
-        </Box>
+        </Stack>
 
         <Box top={5}>
           <AppButton

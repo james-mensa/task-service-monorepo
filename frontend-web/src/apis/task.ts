@@ -5,11 +5,16 @@ import { apiService } from "./api.service";
 import { Task } from "@utils/types";
 
 const createTask = async (data: Task) => {
-  return apiService.apiRequest<Task>("post", `Tasks`, data);
+  return apiService.apiRequest<Task>("post", `Tasks`, {
+    "title": "string",
+    "description": "string",
+    "dueDate": "2025-04-29T22:27:40.609Z",
+    "status": 0
+  });
 };
 const getTasks = async (queryParams?:any) => {
-  const query = buildQuery(queryParams);
-  return apiService.apiRequest<Task[]>("get", `Tasks${query}`);
+ 
+  return apiService.apiRequest<Task[]>("get", `Tasks`);
 };
 
 const getTaskByID = async (id:string) => {
