@@ -3,15 +3,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.Core.Dtos
 {
-public class RegisterUser{
+public class RegisterUserDto
+{
     [Required]
-    public string? Username { get; set; }
+    [MinLength(3)]
+    public string userName { get; set; } = string.Empty;
     
     [Required]
-    public string? Email { get; set; }
+    [EmailAddress]
+    public string email { get; set; } = string.Empty;
     
     [Required]
-    public string? Password { get; set; }   
-
+    [DataType(DataType.Password)]
+    [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
+    public string password { get; set; } = string.Empty;
 }
 }

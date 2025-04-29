@@ -1,12 +1,53 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace backend.Core.Services
 {
     public class AppSettings
     {
-        public string AppName { get; set; } = string.Empty;
-        public string DatabaseConnection { get; set; } = string.Empty;
-        public string JwtSecret { get; set; } = string.Empty;
-        public string JwtIssuer { get; set; } = string.Empty;
-        public string JwtAudience { get; set; } = string.Empty;
-        public string DatabaseName {get; set;}=string.Empty;
+        public LoggingSettings Logging { get; set; } = new();
+        public string AllowedHosts { get; set; } = "*"; 
+        public CommonSettings CommonSettings {get; set;}= new();
+        public JwtSettings JwtSettings { get; set; } = new();
+            public override string ToString()
+    {
+        return $"Database: {CommonSettings?.DatabaseConnection}, " +
+               $"Issuer: {JwtSettings?.Issuer}, Audience: {JwtSettings?.Audience}";
+    }
+    }
+
+    public class LoggingSettings
+    {
+        public LogLevel LogLevel { get; set; } = new LogLevel(); 
+    }
+
+    public class LogLevel
+    {
+        public string Default { get; set; } = "Information";
+        public string MicrosoftAspNetCore { get; set; } = "Warning";
+    }
+
+    public class CommonSettings
+    {
+        [Required]
+        public string AppName { get; set; } ="TaskAuth";
+
+        [Required]
+        public string? DatabaseConnection { get; set; }
+
+        [Required]
+        public string? DatabaseName { get; set; }
+    }
+
+    public class JwtSettings
+    {
+        [Required]
+        public string Secret { get; set; } = "defaultSecret";
+
+        [Required]
+        public string Issuer { get; set; } = "TaskManagementApp"; 
+
+        [Required]
+        public string Audience { get; set; } = "TaskManagementUsers";
     }
 }
+
