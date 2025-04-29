@@ -21,7 +21,7 @@ namespace backend.Infrastructure.Data
             {
                 entity.HasKey(u => u.Id);
 
-                entity.Property(u => u.Username)
+                entity.Property(u => u.UserName)
                       .IsRequired()
                       .HasMaxLength(100);
 
