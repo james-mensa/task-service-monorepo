@@ -5,10 +5,10 @@ using System.Security.Claims;
 using System.Text;
 using backend.Core.Entities;
 using backend.Infrastructure.Data;
-using backend.Core.DTOs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using backend.Core.Dtos;
-
+using backend.Core.Services;
 namespace backend.Api.Controllers
 {
     [ApiController]
@@ -17,48 +17,50 @@ namespace backend.Api.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IConfiguration _configuration;
+        private readonly UserManager<User> _userManager;
+        private readonly AppSettings _appSettings;
+    
 
-        public AuthController(ApplicationDbContext dbContext, IConfiguration configuration)
+
+        public AuthController(ApplicationDbContext dbContext, IConfiguration configuration, UserManager<User> userManager, AppSettings appSettings)
         {
             _dbContext = dbContext;
             _configuration = configuration;
+            _userManager = userManager;
+            _appSettings = appSettings;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUser dto)
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingUser = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Email == dto.Email);
-
+            var existingUser = await _userManager.FindByEmailAsync(dto.email);
             if (existingUser != null)
-                return BadRequest(new { message = "User with this email already exists." });
+                return BadRequest(new { message = "User already exists." });
 
             var newUser = new User
             {
-                Username = dto.Username!,
-                Email = dto.Email!,
-                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password!)
+                UserName = dto.userName,
+                Email = dto.email
             };
 
-            _dbContext.Users.Add(newUser);
-            await _dbContext.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(newUser, dto.password);
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
 
             return Ok(new { message = "User registered successfully." });
         }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Email == dto.Email);
-
-            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
                 return Unauthorized(new { message = "Invalid email or password." });
 
             var token = GenerateJwtToken(user);
@@ -67,11 +69,11 @@ namespace backend.Api.Controllers
 
         private string GenerateJwtToken(User user)
         {
-            var jwtSettings = _configuration.GetSection("JwtSettings");
-            var secretKey = jwtSettings["Secret"];
-            var issuer = jwtSettings["Issuer"];
-            var audience = jwtSettings["Audience"];
 
+
+            var secretKey = _appSettings.JwtSettings.Secret;
+            var issuer = _appSettings.JwtSettings.Issuer;
+            var audience = _appSettings.JwtSettings.Audience;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
