@@ -28,3 +28,17 @@ export function isFormFilled<T extends Record<string, any>>(
     }
     return queryParts.length > 0 ? `?${queryParts.join('&')}` : '';
   };
+
+
+  
+  export const passwordhasError= (password: string): string | null => {
+    if (password.length < 6) return "Password must be at least 6 characters.";
+    if (!/[A-Z]/.test(password)) return "Password must include an uppercase letter.";
+    if (!/[a-z]/.test(password)) return "Password must include a lowercase letter.";
+    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) return "Password must include a symbol.";
+    return null;
+  };
+  
+  export const isValidEmail = (email: string): boolean =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  

@@ -1,10 +1,34 @@
+export interface RequestResponse<T = unknown> {
+    success: boolean;
+    data?: T;
+    message?: string;
+    error?: string;
+  }
+  
+  export interface SelectOption {
+    value: string;
+    label: string;
+  }
+  
+  export enum Status {
+    Pending = "Pending",
+    InProgress = "InProgress",
+    Completed = "Completed"
+  }
+  
+
+  export interface User{
+    userName?:string;
+    email:string;
+    password:string
+    confirmPassword?:""
+  }
 
 
-export interface RequestResponse<T> {
-    success:boolean
-}
-
-export interface SelectOptions{
-    value: string; 
-    label: string 
- }
+  export interface Task {
+    title: string;
+    description?: string;
+    dueDate: string; 
+    status?: Status;
+  }
+  

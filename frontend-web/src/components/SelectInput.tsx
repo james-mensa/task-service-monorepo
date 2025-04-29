@@ -5,7 +5,7 @@ import Select from "@mui/material/Select";
 import { Stack, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { SelectChangeEvent } from "@mui/material";
-import { SelectOptions } from "@utils/types";
+import { SelectOption } from "@utils/types";
 
 interface SelectInputProps {
   label: string;
@@ -14,7 +14,7 @@ interface SelectInputProps {
   onChange?:(event: SelectChangeEvent<string>) => void,
   value?: string;
   error?: boolean;
-  options: SelectOptions[],
+  options: SelectOption[],
 }
 
 export const SelectInput: React.FC<SelectInputProps> = ({
