@@ -4,7 +4,6 @@ export function isFormFilled<T extends Record<string, any>>(
     excludeFields?: (keyof T)[]
   ): boolean {
     const fieldsToCheck = requiredFields ?? (Object.keys(form) as (keyof T)[]);
-    console.log({fieldsToCheck})
     
     return fieldsToCheck.every((fieldKey) => {
       if (excludeFields?.includes(fieldKey)) {

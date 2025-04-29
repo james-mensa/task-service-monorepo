@@ -32,3 +32,18 @@ export interface RequestResponse<T = unknown> {
     status?: Status;
   }
   
+
+  export interface PromptDialogProps {
+    title: string;
+    subtitle: string;
+    leftButton?: {
+      onClick: () => void;
+      label?: string;
+    };
+    rightButton?: {
+      onClick: () => void;
+      label?: string;
+    };
+    open: boolean;
+    isProcessing?:boolean
+  }

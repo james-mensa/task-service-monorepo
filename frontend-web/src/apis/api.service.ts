@@ -28,15 +28,22 @@ class ApiService {
     let response: RequestResponse<T> = { success:false };
     try {
       const res = await ApiClient[method](endpoint, data, { headers });
+      console.log(res)
       if ([200, 201, 202, 204, 205, 206].includes(res.status)) {
    
-        const clientResponse=res.data
-        return clientResponse
+        const data:T=res.data 
+        return {
+          data,
+          success:true,
+          message:res.data.message??'successful'
+        }
       }
 
       return res.data
     } catch (error) {
+  
       const errorMessage = handleError(error);
+      response.message=errorMessage.message
     
     }
     return response;

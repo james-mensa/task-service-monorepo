@@ -1,8 +1,10 @@
-import { Container } from "@mui/material"
+import { Container, Stack } from "@mui/material"
 
 const HomePage =()=>{
     return(
-        <Container></Container>
+        <Container>
+            <Stack height={'90vh'}></Stack>
+        </Container>
     )
 }
 

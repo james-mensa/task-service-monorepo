@@ -26,10 +26,13 @@ ApiClient.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       LocalStorageService.removeItem(appConfig.auth_token);
-      window.location.href = "/auth/login";
+      setTimeout(()=>{
+
+        window.location.href = "/auth/login";
+      },5000)
+    
     }
     return Promise.reject(error);
   }
 );
 export { ApiClient };
-

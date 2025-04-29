@@ -72,7 +72,7 @@ export const useFormManager = <T extends Record<string, any>>(initialFields: T) 
     requiredFields?: (keyof T | "submitAttempt")[],
     excludeFields?: (keyof T | "submitAttempt")[]
   ): boolean => {
-    console.log({formState})
+  
     return isFormFilled<FormState>(formState, requiredFields, excludeFields);
   };
 

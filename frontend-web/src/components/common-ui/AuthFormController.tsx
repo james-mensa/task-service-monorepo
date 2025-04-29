@@ -79,6 +79,8 @@ export const AuthFormController: React.FC<FormProps> = observer(({ type, onSubmi
       } else {
         onSubmit(data);
       }
+    }else{
+      onSubmit(data);
     }
     setSubmitAttempt();
   };
@@ -86,12 +88,12 @@ export const AuthFormController: React.FC<FormProps> = observer(({ type, onSubmi
   return (
     <Stack spacing={5} direction={"column"}>
       <Box>
-        <Stack>
+        <Stack spacing={5}>
           {type == "Register" && (
             <TextInput
               label="User Name"
               onChange={handleFieldChange("userName")}
-              placeholder="Enter  "
+              placeholder="Enter username "
               value={formState.userName}
             />
           )}
@@ -111,9 +113,9 @@ export const AuthFormController: React.FC<FormProps> = observer(({ type, onSubmi
           {type == "Register" && (
             <TextInput
               label="Confirm Password"
-              onChange={handleFieldChange("password")}
+              onChange={handleFieldChange("confirmPassword")}
               placeholder="Enter password agin"
-              value={formState.password}
+              value={formState.confirmPassword}
             />
           )}
         </Stack>

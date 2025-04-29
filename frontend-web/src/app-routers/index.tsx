@@ -7,7 +7,7 @@ const RootRouter = createBrowserRouter(
   [
     {
       path: routePath.HOME_PATH,
-      element:<HomePage/>,
+      element:<LoginPage/>,
     },
     {
       path: routePath.REGISTER_FORM_PAGE,
