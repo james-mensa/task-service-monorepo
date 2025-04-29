@@ -7,6 +7,7 @@ using backend.Infrastructure.Data;
 using System.Text;
 using backend.Core.Entities;
 using Microsoft.AspNetCore.Identity;
+using backend.Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -22,12 +23,13 @@ var JwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSetting
 var AllowedHosts = builder.Configuration.GetSection("AllowedHosts").Get<string>();
 
 
-if (commonSettings == null || JwtSettings ==null || AllowedHosts==null )
+if (commonSettings == null || JwtSettings == null || AllowedHosts == null)
 {
     throw new InvalidOperationException("AppSettings or CommonSettings configuration section is missing.");
 }
 
-AppSettings appSettings = new AppSettings {
+AppSettings appSettings = new AppSettings
+{
     CommonSettings = commonSettings,
     JwtSettings = JwtSettings,
     AllowedHosts = AllowedHosts
@@ -38,7 +40,7 @@ builder.Services.AddSingleton(appSettings);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(commonSettings.DatabaseConnection));
 
-builder.Services.AddSingleton<ICustomLogger>(provider => 
+builder.Services.AddSingleton<ICustomLogger>(provider =>
     new CustomLogger("Application")
 );
 
@@ -46,6 +48,9 @@ builder.Services.AddSingleton<ICustomLogger>(provider =>
 builder.Services.AddIdentity<User, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -56,9 +61,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
-            ValidIssuer =JwtSettings.Issuer,
-            ValidAudience =JwtSettings.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.Secret ))
+            ValidIssuer = JwtSettings.Issuer,
+            ValidAudience = JwtSettings.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.Secret))
         };
     });
 
@@ -73,7 +78,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+
+
+app.UseAuthentication();
+app.UseAuthorization();   
 
 app.MapControllers();
 
