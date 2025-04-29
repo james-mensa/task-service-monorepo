@@ -47,3 +47,12 @@ export interface RequestResponse<T = unknown> {
     open: boolean;
     isProcessing?:boolean
   }
+
+  export interface Pagination {
+    total_records: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  }
