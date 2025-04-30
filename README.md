@@ -61,6 +61,6 @@ cp .env.sample .env
 # Install dependencies and start the dev server
 npm install
 npm run dev
-
+```
 
 
