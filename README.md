@@ -1,9 +1,9 @@
-# Crud Token Service  
-full-stack monorepo for task event service ( .NET Web API and React js + Vite)
+### 🔐 Authentication-Based Task Event Service (Clean Architecture)
+A full-stack monorepo for a Task & Event Management Service built with **.NET Web API** and **React.js + Vite**, following **Clean Architecture** principles.
 
 ##  Project Structure 
 ```bash
-crud-token-service/
+task-service-monorepo/
 ├── backend/             # .NET Web API backend service
 ├── frontend-web/        # React/Vue frontend
 └── README.md            # Project documentation
