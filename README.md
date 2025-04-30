@@ -1,4 +1,4 @@
-### 🔐 Authentication-Based Task Event Service (Clean Architecture)
+### Authentication-Based Task Event Service (Clean Architecture)
 A full-stack monorepo for a Task & Event Management Service built with **.NET Web API** and **React.js + Vite**, following **Clean Architecture** principles.
 
 ##  Project Structure 
@@ -15,14 +15,14 @@ task-service-monorepo/
 
 
 
-## Backend Structure
+### Backend Structure
 ```bash
 src/
 ├── backend.Api/               # Contains controllers, routes, and API endpoint definitions for handling client requests.
 ├── backend.Core/              # Contains core business logic,  models,Dtos, interfaces, and application services.
 └── backend.Infrastructure/    # Contains implementation details like database access, and service integrations,.
 ```
-## Prerequisites
+### Prerequisites
 
 - **Node.js** ≥ 18.x
 - **npm** ≥ 9.x
