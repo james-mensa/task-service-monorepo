@@ -2,24 +2,21 @@
 
 import { buildQuery } from "@utils/common";
 import { apiService } from "./api.service";
-import { Task } from "@utils/types";
+import { FilterProps, Task } from "@utils/types";
 
 const createTask = async (data: Task) => {
-  return apiService.apiRequest<Task>("post", `Tasks`, {
-    "title": "string",
-    "description": "string",
-    "dueDate": "2025-04-29T22:27:40.609Z",
-    "status": 0
-  });
+
+  return apiService.apiRequest<Task>("post", `Tasks`, data);
 };
-const getTasks = async (queryParams?:any) => {
+const getTasks = async (queryParams?:FilterProps) => {
  
-  return apiService.apiRequest<Task[]>("get", `Tasks`);
+  const query=buildQuery(queryParams)
+  return apiService.apiRequest<Task[]>("get", `Tasks${query}`);
 };
 
 const getTaskByID = async (id:string) => {
 
-    return apiService.apiRequest<Task[]>("get", `Tasks/${id}`);
+    return apiService.apiRequest<Task>("get", `Tasks/${id}`);
   };
   
  const updateTask= async (id:string,data:Partial<Task>)=> {
@@ -27,7 +24,7 @@ const getTaskByID = async (id:string) => {
  };
  
  const deleteTask = async (id:string)=> {
-    return  apiService.apiRequest<null>('delete',`tokens/${id}`)
+    return  apiService.apiRequest<null>('delete',`Tasks/${id}`)
  };
  
 

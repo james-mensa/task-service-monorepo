@@ -10,19 +10,13 @@ import {
   Link as MuiLink
 } from "@mui/material";
 import { dialogStore } from "@store/DialogStore";
-import LocalStorageService from "@store/LocalStorage";
+
 import { User } from "@utils/types";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    const jwt_token = LocalStorageService.getItem(appConfig.auth_token);
-    if (jwt_token !== null || jwt_token !== undefined) {
-      navigate(routePath.HOME_PATH);
-    }
-  }, []);
 
   const handleSubmit = (user: User) => {
     dialogStore.open({
@@ -49,7 +43,7 @@ const LoginPage = () => {
         open: true
       });
       setTimeout(()=>{
-        navigate('Home')
+        navigate(routePath.HOME_PATH)
 
       },1000)
     } catch (err) {

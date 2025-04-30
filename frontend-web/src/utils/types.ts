@@ -11,7 +11,7 @@ export interface RequestResponse<T = unknown> {
   }
   
   export enum Status {
-    Pending = "Pending",
+    Pending = 'Pending',
     InProgress = "InProgress",
     Completed = "Completed"
   }
@@ -29,7 +29,7 @@ export interface RequestResponse<T = unknown> {
     title: string;
     description?: string;
     dueDate: string; 
-    status?: Status;
+    status?: Status |number;
     id?:string
   }
   
@@ -57,3 +57,12 @@ export interface RequestResponse<T = unknown> {
     hasNextPage: boolean;
     hasPreviousPage: boolean;
   }
+
+  export interface FilterProps {
+    status?: number; dueDate?: string 
+  }
+  
+  export interface FilterCardProps {
+    onChange: (filters: FilterProps) => void;
+  }
+  

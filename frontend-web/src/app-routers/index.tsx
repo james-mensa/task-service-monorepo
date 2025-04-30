@@ -1,5 +1,6 @@
+import { AuthGuardController } from "@components/common-ui/AuthGuardController";
 import routePath from "@config/paths";
-import {AddTaskPage, HomePage,LoginPage,RegisterPage} from "@pages/index";
+import {AddTaskPage, HomePage,LoginPage,RegisterPage, UpdateTaskPage} from "@pages/index";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -7,11 +8,11 @@ const RootRouter = createBrowserRouter(
   [
     {
       path: routePath.HOME_PATH,
-      element:<HomePage/>,
+      element:<AuthGuardController> <HomePage/></AuthGuardController> ,
     },
     {
       path: routePath.REGISTER_FORM_PAGE,
-      element:<RegisterPage/>,
+      element: <RegisterPage/>
     },
     {
       path: routePath.LOGIN_FORM_PAGE,
@@ -19,7 +20,11 @@ const RootRouter = createBrowserRouter(
     },
     {
       path: routePath.ADD_TASK_PAGE,
-      element:<AddTaskPage/>,
+      element: <AuthGuardController><AddTaskPage/>,</AuthGuardController>
+    },
+    {
+      path: routePath.UpPDATE_TASK_PAGE,
+      element: <AuthGuardController><UpdateTaskPage/></AuthGuardController>
     },
   ],
   {

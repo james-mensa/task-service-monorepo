@@ -1,3 +1,5 @@
+import { Status } from "./types";
+
 export function isFormFilled<T extends Record<string, any>>(
     form: T,
     requiredFields?: (keyof T)[],
@@ -41,3 +43,37 @@ export function isFormFilled<T extends Record<string, any>>(
   export const isValidEmail = (email: string): boolean =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   
+  /**
+ * Converts a status code to a human-readable label.
+ * @param value The status value ("0", "1", "2",)
+ * @returns The corresponding label (e.g., "Pending", "In Progress", "Completed")
+ */
+export const getStatusLabel = (value?: number | string): string => {
+  console.log({value})
+  switch (value) {
+    case 0:
+      return "Pending";
+    case 1:
+      return "In Progress";
+    case 2:
+      return "Completed";
+    case "":
+      return "All";
+    default:
+      return "Unknown";
+  }
+};
+
+export const getStatusValue = (value: string): number => {
+
+  switch (value as Status) {
+    case  Status.Pending:
+      return 0;
+    case Status.InProgress:
+      return 1;
+    case Status.Completed:
+      return 2;
+    default:
+      return 0;
+  }
+};

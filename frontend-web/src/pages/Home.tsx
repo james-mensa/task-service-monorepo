@@ -2,8 +2,10 @@ import { taskApi } from "@apis/task";
 import { userApi } from "@apis/user";
 import AppTable, { RowItem } from "@components/AppTable";
 import { AppButton } from "@components/Button";
+import { FilterCard } from "@components/common-ui/FilterCard";
 import { appConfig } from "@config/config";
 import routePath from "@config/paths";
+
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import {
@@ -20,42 +22,51 @@ import {
 import { grey } from "@mui/material/colors";
 
 import { dialogStore } from "@store/DialogStore";
-import { Task } from "@utils/types";
+import { getStatusLabel } from "@utils/common";
+import { FilterProps, Status, Task } from "@utils/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
 const Home = () => {
   const [data, setData] = useState<Task[]>([]);
+  const [filters, setFilters] = useState<FilterProps>({
+ 
+  });
   const navigate=useNavigate()
-  const fetch = async () => {
+  const fetch = async (filter:FilterProps) => {
     try {
-      const res = await taskApi.getTasks();
+      const res = await taskApi.getTasks(filter);
       console.log({tasks:res})
       if (res.data) {
-        setData(res.data);
+        const __data=res.data.map((task)=>({
+          ...task,
+          status:getStatusLabel(task.status as number) as unknown as Status
+          
+        }))
+        setData(__data);
       }
     } catch (err) {}
   };
 
   useEffect(() => {
-    fetch();
-  }, []);
+    fetch(filters);
+  }, [filters]);
 
   const handleDelete = (task: Task) => {
     dialogStore.open({
       title: "Delete Token",
-      subtitle: `click continue to delete token (${task}) `,
+      subtitle: `click continue to delete task (${task.title}) `,
       rightButton: {
-        onClick: () => makeDeleteApiCall(task)
+        onClick: () => makeDeleteApiCall(task.id??"")
       },
       open: true
     });
   };
 
-  const makeDeleteApiCall = async (task: Task) => {
+  const makeDeleteApiCall = async (id:string) => {
     try {
-      const res = await taskApi.deleteTask(task.id ?? "");
+      const res = await taskApi.deleteTask(id);
       dialogStore.open({
         title: "Alert",
         subtitle: res.message ?? "",
@@ -65,7 +76,7 @@ const Home = () => {
         },
         open: true
       });
-      fetch();
+      fetch(filters);
     } catch (err) {}
   };
 
@@ -84,8 +95,8 @@ const Home = () => {
 
         <Tooltip title="Update Record">
           <IconButton
-            onClick={() => navigation(`/tokens/${item.id ?? ""}/update`)}
-            sx={{ borderRadius: 0 }}
+            onClick={() => navigation(`/tasks/${item.id ?? ""}/update`)}
+            sx={{ borderRadius: 0 }}  
           >
             <EditIcon />
           </IconButton>
@@ -102,6 +113,9 @@ const Home = () => {
     userApi.logout()
     navigate(routePath.LOGIN_FORM_PAGE)
   }
+  const handleFilterChange = (_filters: { status?: number; dueDate?: string }) => {
+    setFilters(_filters);
+  };
   return (
     <Container>
       <Stack direction={"column"} spacing={3} mt={10}>
@@ -121,11 +135,16 @@ const Home = () => {
          
         </Stack>
         <Box width={200}>
+          <Stack spacing={2}>
           <AppButton
             onClick={() => navigation(routePath.ADD_TASK_PAGE)}
             label="Add New Task"
           />
+            <FilterCard onChange={handleFilterChange} />
+          </Stack>
+
         </Box>
+
 
         <AppTable<Task>
           data={data}
@@ -140,7 +159,7 @@ const Home = () => {
 };
 
 export default Home;
-const lgheaderLabels: string[] = ["Title", "Description", "Due Date", "Status"];
+const lgheaderLabels: string[] = ["Title", "Description", "Due Date", "Status","options"];
 const lgdataKeys: (keyof Task)[] = [
   "title",
   "description",
@@ -148,5 +167,5 @@ const lgdataKeys: (keyof Task)[] = [
   "status"
 ];
 
-const smheaderLabels: string[] = ["Title", "Due Date", "Status"];
+const smheaderLabels: string[] = ["Title", "Due Date", "Status","options"];
 const smdataKeys: (keyof Task)[] = ["title", "dueDate", "status"];

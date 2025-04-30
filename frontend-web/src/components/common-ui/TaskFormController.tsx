@@ -8,6 +8,13 @@ import { StatusOptions } from "@utils/contants";
 import { AppButton } from "@components/Button";
 import { dialogStore } from "@store/DialogStore";
 import { Task } from "@utils/types";
+import CustomDatePicker from "@components/DatePicker";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import { getStatusValue } from "@utils/common";
+
+dayjs.extend(utc);
+
 
 interface TokenFormProps {
   task?: Task;
@@ -50,7 +57,12 @@ export const TaskFormController: React.FC<TokenFormProps> = observer(
           open: true,
         });
       }else{
-        onSubmit(data)
+        console.log({status:data.status,www:getStatusValue((data.status as string)??'') as number})
+        onSubmit({
+          ...data,
+          dueDate: dayjs(data.dueDate).utc().toISOString(),
+          status: getStatusValue((data.status as string)??'') as number,
+        });        
       }
       setSubmitAttempt();
     };
@@ -75,18 +87,11 @@ export const TaskFormController: React.FC<TokenFormProps> = observer(
                 label="Status"
                 onChange={handleFieldChange('status')}
                 placeholder="Select status"
-                value={formState.status}
+                value={formState.status?.toString()}
                 options={StatusOptions}
               />
-              <TextInput
-                label="Due Date"
-                onChange={handleFieldChange('dueDate')}
-                placeholder="Enter Due Time"
-                value={formState.dueDate?.toString()}
-             
-              />
             
-          
+          <CustomDatePicker label="Due Date" value={formState.dueDate ?dayjs(formState.dueDate) : null } onChange={handleFieldChange('dueDate')}/>
         
         </Stack>
 
