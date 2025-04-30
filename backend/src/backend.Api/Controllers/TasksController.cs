@@ -9,7 +9,6 @@ namespace backend.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class TasksController : ControllerBase
     {
         private readonly ITaskService _taskService;
@@ -41,6 +40,7 @@ namespace backend.Api.Controllers
 
    
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateTask([FromBody] CreateTaskDto dto)
         {
             var userId = GetUserId();

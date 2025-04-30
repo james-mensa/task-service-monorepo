@@ -36,6 +36,7 @@ namespace backend.Core.Services
 
         [Required]
         public string? DatabaseName { get; set; }
+        public string? CROS_LIST { get; set; }
     }
 
     public class JwtSettings
