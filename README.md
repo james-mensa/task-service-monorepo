@@ -1,5 +1,5 @@
 # Crud Token Service  
-full-stack monorepo for task event service with modern web technologies
+full-stack monorepo for task event service ( .NET Web API and React js + Vite)
 
 ##  Project Structure 
 ```bash
@@ -16,12 +16,12 @@ crud-token-service/
 
 
 ## Backend Structure
+```bash
 src/
 ├── backend.Api/               # Contains controllers, routes, and API endpoint definitions for handling client requests.
 ├── backend.Core/              # Contains core business logic,  models,Dtos, interfaces, and application services.
 └── backend.Infrastructure/    # Contains implementation details like database access, and service integrations,.
-
-
+```
 ## Prerequisites
 
 - **Node.js** ≥ 18.x
@@ -30,9 +30,8 @@ src/
 - (Optional) **Docker** for sql server
 
 
-# Installation Guide
-
-## 1. Clone the Repository
+### Installation Guide
+1. Clone the Repository
 
 ```bash
 git clone https://github.com/james-mensa/task-service-monorepo.git
